@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sate Taichan Konyinyier - Masukan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+            color: #f5f5f5;
+        }
+        header {
+            background: #111;
+            padding: 20px;
+            text-align: center;
+        }
+        header img {
+            max-height: 120px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        h1 {
+            margin: 15px 0 5px;
+            color: #f9b23d;
+            font-weight: 700;
+        }
+        hr {
+            width: 150px;
+            height: 4px;
+            border: none;
+            background: linear-gradient(to right, #f9b23d, #e63946);
+            margin: 10px auto;
+            border-radius: 10px;
+        }
+        form {
+            max-width: 500px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        input, textarea {
+            background: #222;
+            color: #fff;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        button {
+            background: linear-gradient(to right, #f9b23d, #e63946);
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+        }
+        footer {
+            text-align: center;
+            color: #999;
+            padding: 15px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="logo-sate-taichan.png" alt="Sate Taichan Konyinyier">
+    <h1>Sate Taichan Konyinyier</h1>
+    <hr>
+    <p>Senyum Mu Semangat Ku 😊</p>
+<p style="margin-top: 10px; color: #bbb;">
+    Kami menghargai setiap masukan dari Anda. Terima kasih telah setia bersama Sate Taichan Konyinyier.<br> Masukan Anda membantu kami terus berkembang dan memberikan yang terbaik.
+</p>
+
+</header>
+
+
+<form onsubmit="kirimMasukan(event)">
+    <input type="text" name="nama" placeholder="Nama Anda Di Gofood" required>
+    <textarea name="masukan" rows="5" placeholder="Masukan Anda" required></textarea>
+    <button type="submit">Kirim Masukan</button>
+</form>
+<p style="text-align: center; font-size: 12px; font-style: italic; color: #bbb; margin-top: 20px;">
+    Form ini hanya untuk memberikan masukan. Kami tidak menerima pertanyaan atau konsultasi.
+</p>
+
+<script>
+function kirimMasukan(event) {
+    event.preventDefault();
+    const nama = document.querySelector('input[name="nama"]').value;
+    const masukan = document.querySelector('textarea[name="masukan"]').value;
+
+    if (masukan.trim().length < 5) {
+        alert("Masukan terlalu singkat. Tolong isi dengan lebih detail.");
+        return;
+    }
+
+    fetch("/.netlify/functions/kirimMasukan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nama, masukan })
+    })
+    .then(() => {
+        alert(`Terima kasih ${nama}! Masukan Anda sudah kami terima.`);
+        window.location.href = 'halaman2.html';
+    })
+    .catch((err) => {
+        console.error("Gagal kirim:", err);
+        alert("Gagal mengirim masukan, coba lagi nanti.");
+    });
+}
+</script>
+
+<footer>
+    &copy; 2025 Sate Taichan Konyinyier. By ALDI ANTONI. All Rights Reserved.
+</footer>
+
+</body>
+</html>
